@@ -9,7 +9,7 @@ async function printRandomMeal() {
     }
 
     const meal = data.meals[0];
-
+    console.log(meal)
 
     console.log("🍽️ Random Meal");
     console.log("-------------");
@@ -34,7 +34,13 @@ async function printRandomMeal() {
   }
 }
 
-
+function inject(meal) {
+  container.insertAdjacentHTML(
+    "beforeend",
+    `<div class="card"><h1 class="title">Name:${meal.strMeal}</h1></div>`
+  );
+}
 
 
 printRandomMeal();
+inject(meal);
