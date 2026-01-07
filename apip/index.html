@@ -1,16 +1,24 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>apip</title>
+    <title>Random Meal Generator</title>
+    <link rel="stylesheet" href="style.css" />
   </head>
   <body>
+    <header>
+      <h1 class="text-center text-6xl p-8 font-serif">Random Meal Generator</h1>
+    </header>
 
-    <div class="container"></div>
+    <main>
+      <button id="loadMeal">Get a Random Meal</button>
+      <div
+        id="meal"
+        class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 p-8"
+      ></div>
+    </main>
 
-    <div id="app"></div>
-    <script type="module" src="/src/main.js"></script>
+    <script type="module" src="src/main.js"></script>
   </body>
 </html>
