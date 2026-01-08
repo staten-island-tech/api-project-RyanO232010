@@ -6,17 +6,28 @@
     <title>Random Meal Generator</title>
     <link rel="stylesheet" href="style.css" />
   </head>
-  <body>
-    <header>
-      <h1 class="text-center text-6xl p-8 font-serif">Random Meal Generator</h1>
+  <body class="bg-gray-100 min-h-screen">
+    <header class="bg-white shadow">
+      <h1 class="text-center text-4xl md:text-6xl p-8 font-serif text-gray-800">
+        Random Meal Generator
+      </h1>
     </header>
 
-    <main>
-      <button id="loadMeal">Get a Random Meal</button>
+    <main class="max-w-7xl mx-auto text-center">
+      <button
+        id="loadMeal"
+        class="bg-red-600 hover:bg-red-700 text-white font-semibold px-6 py-3 rounded-lg shadow-md transition duration-300"
+      >
+        Get a Random Meal
+      </button>
+
       <div
         id="meal"
         class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 p-8"
       ></div>
+
+      <div id="bcontainer" class="bg-red-700">
+      </div>
     </main>
 
     <script type="module" src="src/main.js"></script>

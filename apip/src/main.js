@@ -2,10 +2,15 @@ import "./style.css";
 
 let startingMeal = 10;
 const meals = [];
+const alp = ["a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z"];
+const savedMeals = [];
 let isLoading = false;
 
 const container = document.getElementById("meal");
-const button = document.getElementById("loadMeal");
+const rbtn = document.getElementById("loadMeal");
+const bcontainer = document.getElementById("bcontainer")
+
+
 
 function inject(meal) {
   let ingredientsHTML = "<ul>";
@@ -41,6 +46,18 @@ function inject(meal) {
   );
 }
 
+function injectButtons(alp) {
+  for (let i = 0; i < alp.length; i++) {
+bcontainer.insertAdjacentHTML(
+  "beforeend",
+  `
+  <div>
+  <button id="${alp[i]}"></button>
+  </div>
+  `
+)
+}
+
 function injectAll(mealsArray) {
   container.innerHTML = "";
   mealsArray.forEach((meal) => inject(meal));
@@ -66,6 +83,7 @@ async function fetchRandomMeal() {
       }
 
       meals.push(data.meals[0]);
+      savedMeals.push(data.meals[0])
       console.log(data.meals[0]);
     }
 
@@ -78,7 +96,7 @@ async function fetchRandomMeal() {
   }
 }
 
-button.addEventListener("click", fetchRandomMeal);
+rbtn.addEventListener("click", fetchRandomMeal);
 
 container.addEventListener("click", (event) => {
   if (!event.target.classList.contains("add-to-cart")) return;
@@ -98,4 +116,7 @@ container.addEventListener("click", (event) => {
   console.log("Cart:", cart);
 });
 
+
 export { inject };
+
+console.log(savedMeals)
