@@ -2,7 +2,6 @@ import "./style.css";
 
 let startingMeal = 10;
 const meals = [];
-const alp = ["a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z"];
 const savedMeals = [];
 let isLoading = false;
 
@@ -31,7 +30,7 @@ function inject(meal) {
   container.insertAdjacentHTML(
     "beforeend",
     `
-    <div class="meal-card w-125 bg-white rounded-lg shadow p-1 justify-around"> 
+    <div class="meal-card w-125 bg-white rounded-lg shadow p-4 space-x-10  "> 
       <h2>${meal.strMeal}</h2>
       <img src="${meal.strMealThumb}" alt="${meal.strMeal}" />
       <p>Category: ${meal.strCategory}</p>
@@ -46,16 +45,19 @@ function inject(meal) {
   );
 }
 
-function injectButtons(alp) {
-  for (let i = 0; i < alp.length; i++) {
-bcontainer.insertAdjacentHTML(
-  "beforeend",
-  `
-  <div>
-  <button id="${alp[i]}"></button>
-  </div>
-  `
-)
+const alp = "abcdefghijklmnopqrstuvwxyz".split("");
+
+function injectButtons() {
+  bcontainer.innerHTML = "";
+
+  alp.forEach(letter => {
+    bcontainer.insertAdjacentHTML(
+      "beforeend",
+      `<button class="letter-btn p-2 bg-red-600 m-1 px-3 py-1.5 rounded" data-letter="${letter}">
+        ${letter.toUpperCase()}
+      </button>`
+    );
+  });
 }
 
 function injectAll(mealsArray) {
@@ -71,7 +73,7 @@ async function fetchRandomMeal() {
   container.innerHTML = "<p>Loading...</p>";
 
   try {
-    for (let i = 0; i < startingMeal; i++) {
+    for (let i = 0; i < 3; i++) {
       const res = await fetch(
         "https://www.themealdb.com/api/json/v1/1/random.php"
       );
@@ -98,25 +100,41 @@ async function fetchRandomMeal() {
 
 rbtn.addEventListener("click", fetchRandomMeal);
 
-container.addEventListener("click", (event) => {
-  if (!event.target.classList.contains("add-to-cart")) return;
+async function fetchMealsByLetter(letter) {
+  if (isLoading) return;
+  isLoading = true;
 
-  const card = event.target.closest(".meal-card");
-  const mealId = card.dataset.id;
+  container.innerHTML = "<p>Loading...</p>";
 
-  const meal = meals.find((m) => m.idMeal === mealId);
-  if (!meal) return;
+  try {
+    const res = await fetch(
+      `https://www.themealdb.com/api/json/v1/1/search.php?f=${letter}`
+    );
+    const data = await res.json();
 
-  cart.push({
-    id: meal.idMeal,
-    name: meal.strMeal,
-    instructions: meal.strInstructions,
-  });
+    if (!data.meals) {
+      container.innerHTML = `<p>No meals starting with "${letter.toUpperCase()}"</p>`;
+      return;
+    }
 
-  console.log("Cart:", cart);
+    injectAll(data.meals);
+  } catch (err) {
+    console.error(err);
+    container.innerHTML = "<p>Error fetching meals.</p>";
+  } finally {
+    isLoading = false;
+  }
+}
+
+
+bcontainer.addEventListener("click", (event) => {
+  if (!event.target.classList.contains("letter-btn")) return;
+
+  const letter = event.target.dataset.letter;
+  fetchMealsByLetter(letter);
 });
-
 
 export { inject };
 
 console.log(savedMeals)
+injectButtons();
