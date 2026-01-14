@@ -134,6 +134,50 @@ bcontainer.addEventListener("click", (event) => {
   fetchMealsByLetter(letter);
 });
 
+const searchInput = document.getElementById("searchInput");
+const searchBtn = document.getElementById("searchBtn");
+
+
+async function search() {
+  if (isLoading) return;
+
+  const query = searchInput.value.trim();
+  if (!query) return;
+
+  isLoading = true;
+  container.innerHTML = "<p>Loading...</p>";
+
+  try {
+    const res = await fetch(
+      `https://www.themealdb.com/api/json/v1/1/search.php?s=${query}`
+    );
+    const data = await res.json();
+
+    if (!data.meals) {
+      container.innerHTML = `<p>No meals found for "${query}"</p>`;
+      return;
+    }
+
+    injectAll(data.meals);
+  } catch (err) {
+    console.error(err);
+    container.innerHTML = "<p>Error searching meals.</p>";
+  } finally {
+    isLoading = false;
+  }
+}
+
+searchBtn.addEventListener("click", search);
+
+searchInput.addEventListener("keydown", (e) => {
+  if (e.key === "Enter") {
+    search();
+  }
+});
+
+
+
+
 export { inject };
 
 console.log(savedMeals)

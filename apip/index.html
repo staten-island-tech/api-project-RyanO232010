@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Random Meal Generator</title>
-    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="src/style.css" />
   </head>
   <body class="bg-gray-100 min-h-screen">
     <header class="bg-white shadow">
@@ -20,13 +20,33 @@
       >
         Get 3 Random Meals
       </button>
-      <div
-        id="meal" 
-        class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-35 -mx-60 "
-      ></div>
-
-      <div id="bcontainer" class="rounded shadow my-5 mx-17 py-5  max-w-6xl">
+      <div class="flex justify-center my-4">
+        <div
+          class="flex w-80 md:w-96 bg-white rounded-full shadow-md overflow-hidden"
+        >
+          <input
+            id="searchInput"
+            type="text"
+            placeholder="Search meals..."
+            class="flex-1 px-5 py-2 focus:outline-none text-gray-700"
+          />
+          <button
+            id="searchBtn"
+            class="bg-red-600 hover:bg-red-700 text-white px-6 transition"
+          >
+            🔍
+          </button>
+        </div>
       </div>
+
+      <div
+        id="bcontainer"
+        class="rounded shadow my-5 mx-17 py-5 max-w-6xl"
+      ></div>
+      <div
+        id="meal"
+        class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-35 -mx-60"
+      ></div>
     </main>
 
     <script type="module" src="src/main.js"></script>
